@@ -9,7 +9,7 @@
 <body>
     <div id="app">
         <h1>The CheckList</h1>
-        <ajout></ajout>
+        <ajout @nouvellenote="ajouterNote"></ajout>
         <note v-for="todo in todos" v-bind:content="todo" @click="inverser"></note>
     </div>
     <script>
@@ -28,9 +28,8 @@
                 inverser(){
                     this.todos.reverse();
                 },
-                ajouterNote(){
-                    this.todos.push(this.message);
-                    this.message = "";
+                ajouterNote(message){
+                    this.todos.push(message);
                 }
             }
         })
@@ -39,16 +38,22 @@
             template: `<p>{{content}}</p>`
 
         });
-        
         vm.component('ajout',{
             props:[],
+            emits: ['nouvellenote'],
             data(){
                 return{
                     interne: 'Nouveau message'
                 }
             },
+            methods:{
+                enregistrerNote(){
+                this.$emit('nouvellenote',this.interne);
+                this.interne='';
+                }
+            },
             template: `<input type="text" v-model="interne" />
-                       <a href="#" @click="ajouterNote" v-if="interne != '' ">Ajouter</a>
+                       <a href="#" @click="enregistrerNote" v-if="interne != '' ">Ajouter</a>
                        {{interne}}`
         })
         vm.mount('#app');
