@@ -9,9 +9,7 @@
 <body>
     <div id="app">
         <h1>The CheckList</h1>
-        <input type="text" v-model="message" />
-        <a href="#" @click="ajouterNote" v-if="message != '' ">Ajouter</a>
-        {{message}}
+        <ajout></ajout>
         <note v-for="todo in todos" v-bind:content="todo" @click="inverser"></note>
     </div>
     <script>
@@ -41,6 +39,18 @@
             template: `<p>{{content}}</p>`
 
         });
+        
+        vm.component('ajout',{
+            props:[],
+            data(){
+                return{
+                    interne: 'Nouveau message'
+                }
+            },
+            template: `<input type="text" v-model="interne" />
+                       <a href="#" @click="ajouterNote" v-if="interne != '' ">Ajouter</a>
+                       {{interne}}`
+        })
         vm.mount('#app');
     </script>
 </body>
