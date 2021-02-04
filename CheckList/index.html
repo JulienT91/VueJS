@@ -8,10 +8,11 @@
 </head>
 <body>
     <div id="app">
-        <h1 v-bind:title="message">{{message}}</h1>
-        <p  v-for="todo in todos" @click="inverser"> <!--Utilisation de :key="" pour eviter les erreurs pour des dév plus complexes-->
-            {{ todo }}
-        </p>
+        <h1>The CheckList</h1>
+        <input type="text" v-model="message" />
+        <a href="#" @click="ajouterNote" v-if="message != '' ">Ajouter</a>
+        {{message}}
+        <note v-for="todo in todos" v-bind:content="todo" @click="inverser"></note>
     </div>
     <script>
         const vm = Vue.createApp({
@@ -28,9 +29,19 @@
             methods:{
                 inverser(){
                     this.todos.reverse();
+                },
+                ajouterNote(){
+                    this.todos.push(this.message);
+                    this.message = "";
                 }
             }
-        }).mount('#app');
+        })
+        vm.component('note',{
+            props: ['content'],
+            template: `<p>{{content}}</p>`
+
+        });
+        vm.mount('#app');
     </script>
 </body>
 </html>
