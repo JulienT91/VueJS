@@ -8,13 +8,26 @@
 </head>
 <body>
     <div id="app">
-        {{ message }}
+        <h1 v-bind:title="message">{{message}}</h1>
+        <p  v-for="todo in todos" @click="inverser"> <!--Utilisation de :key="" pour eviter les erreurs pour des dév plus complexes-->
+            {{ todo }}
+        </p>
     </div>
     <script>
         const vm = Vue.createApp({
             data(){
                 return {
-                    message: 'Hello World !'
+                    message: 'Hello World !',
+                    /*todos: [
+                        {id:0, content:'Tache #1'},
+                        {id:1, content:'Tache #2'}
+                    ]*/
+                    todos:['Sauver le monde','Apprendre Vue JS','Boire un café']
+                }
+            },
+            methods:{
+                inverser(){
+                    this.todos.reverse();
                 }
             }
         }).mount('#app');
